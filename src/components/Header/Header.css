@@ -1,0 +1,39 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.header {
+    max-width: 100%;
+    padding: 0 70px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 74px;
+    background-color: rgba(7, 48, 66, 1);
+}
+
+.header__link {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header__link:hover {
+    opacity: 0.6;
+}
+
+.header__link_type_signup {
+    margin-right: 30px;
+}
+
+.header__link_type_signin {
+    color: #000000;
+    padding: 8px 20px;
+    box-sizing: border-box;
+    background: #3DDC84;
+    border-radius: 3px;
+}
