@@ -1,0 +1,38 @@
+.form__fake-checkbox {
+  position: relative;
+  appearance: none;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  box-sizing: border-box;
+  margin-right: 14px;
+  background-color:#202020;
+  border-radius: 16px;
+  transition: 0.3s ease;
+  cursor: pointer;
+}
+
+.form__fake-checkbox:hover {
+  box-shadow: 0 0 7px #EE3465;
+}
+  
+.form__fake-checkbox:checked {
+  background-color: #FFF;
+}
+  
+.form__fake-checkbox:after {
+  content: "";
+  background-color: #3DDC84;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  transition: 0.3s ease;
+}
+  
+.form__fake-checkbox:checked:after {
+  right: calc(100% - 18px);
+}

@@ -1,0 +1,92 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.techs {
+    width: 100%;
+    background-color: #272727;
+    box-sizing: border-box;
+    padding: 110px 70px;
+}  
+
+.techs__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0 0 23px;
+    border-bottom: 1px solid #DADADA;
+}
+
+.techs__subtitle {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 90px 0 26px;
+}
+
+.techs__info {
+    max-width: 460px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0 auto;
+}
+
+.techs__icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(84px, 90px));
+    list-style: none;
+    justify-content: center;
+    margin: 100px 0 0;
+    gap: 10px;
+    padding: 0;
+}
+
+.techs__icon {
+    background: #303030;
+    text-align: center;
+    height: 60px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    padding-top: 21px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 1279px) {
+    .techs {
+        padding: 90px 50px;
+    }
+    
+    .techs__subtitle {
+        margin: 80px 0 22px;
+    }
+
+    .techs__info {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .techs__icons {
+        margin: 83px 0 0;
+    }
+
+    .techs__icon {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

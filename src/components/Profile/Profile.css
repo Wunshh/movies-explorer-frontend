@@ -1,0 +1,98 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profile__title {
+    text-align: center;
+    margin: 74px 0 123px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+}
+
+.form-info {
+    margin: 0 auto 220px;
+    display: flex;
+    flex-direction: column;
+    width: 410px;
+}
+
+.form__user {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.form__input-user {
+    border: none;
+    margin: 0;
+    text-align: right;
+    background-color: #202020;
+    padding: 2px 2px 2px 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    color: #FFFFFF;
+}
+
+.form__input:focus {
+    outline-color: #EE3465;
+}
+
+.form__user-name {
+    box-sizing: border-box;
+    padding: 0 0 14px;
+    border-bottom: 1px solid #424242;
+}
+
+.form__user-email {
+    margin: 14px 0 0;
+}
+
+.profile__change-button {
+    max-width: 130px;
+    align-self: center;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    margin: 0 0 16px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+}
+
+.profile__exsit-button {
+    align-self: center;
+    max-width: 230px;
+    background-color: transparent;
+    border: none;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #EE3465;
+    padding: 0;
+}
+
+.button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
