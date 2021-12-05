@@ -26,8 +26,10 @@ function Profile({ loggedIn }) {
                     />
                 </div>
             </form>
-            <button className="profile__change-button button">Редактировать</button>
-            <button className="profile__exsit-button button">Выйти из аккаунта</button>
+            <div className="profile__buttons">
+                <button className="profile__change-button button">Редактировать</button>
+                <button className="profile__exit-button button">Выйти из аккаунта</button>
+            </div>
         </section>
     ); 
 }

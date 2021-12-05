@@ -4,10 +4,14 @@
     width: 100%;
     min-height: 524px;
     box-sizing: border-box;
-    background-image: url('../../images/main_back.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    padding-top: 184px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.promo__background-image {
+    position: absolute;
 }
 
 .promo__title {
@@ -26,5 +30,9 @@
     .promo__title {
         font-size: 31px;
         line-height: 39px;
+    }
+
+    .promo__background-image {
+        width: 248px;
     }
 }

@@ -8,7 +8,7 @@
 
 .movies__add-botton {
     font-family: 'Inter', 'Arial', sans-serif;
-    margin: 60px 0 0;
+    margin: 60px 0 80px;
     text-align: center;
     padding: 11px 0 9px;
     background-color: #2F2F2F;
@@ -18,8 +18,8 @@
     line-height: 15px;
     color: #FFFFFF;
     border: none;
-    width: 100%;
     max-width: 1140px;
+    width: 100%;
     cursor: pointer;
     align-self: center;
 }
@@ -30,6 +30,14 @@
 
 @media screen and (max-width: 1279px) {
     .movies__add-botton {
+        margin: 80px 0;
         max-width: 708px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .movies__add-botton {
+        margin: 80px 10px;
+        max-width: 300px;
     }
 }

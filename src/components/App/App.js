@@ -12,7 +12,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
   // при добавлении функциональности добавить setLoggedIn
-  // для изменения header заменить true на false
+  // для изменения header заменить false на true
   const [loggedIn] = useState(true);
 
 
@@ -21,7 +21,7 @@ function App() {
       <Routes>
 
         <Route path="/" element={ 
-          <Main loggedIn={loggedIn}/> 
+          <Main loggedIn={loggedIn} /> 
         }/>
 
         <Route path="/signup" element={ <Register />} />

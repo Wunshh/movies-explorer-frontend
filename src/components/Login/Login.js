@@ -10,28 +10,30 @@ function Login() {
                 <h1 className="login__title">Рады видеть!</h1>
             </div>
             <form className="form">
-                <label className="form__label" for="email">E-mail</label>
-                <input 
-                    id="email"
-                    className="form__input form__input-email" 
-                    type="email" 
-                    name="email"    
-                    required
-                />
-                <span className="form__error"></span>
-                <label className="form__label" for="password">Пароль</label>
-                <input 
-                    id="password"
-                    className="form__input form__input-password"
-                    type="password"
-                    name="password"
-                    required
-                />
-                <span className="form__error"></span>
+                <div className="form__inputs">
+                    <label className="form__label" for="email">E-mail</label>
+                    <input 
+                        id="email"
+                        className="form__input form__input-email" 
+                        type="email" 
+                        name="email"    
+                        required
+                    />
+                    <span className="form__error"></span>
+                    <label className="form__label" for="password">Пароль</label>
+                    <input 
+                        id="password"
+                        className="form__input form__input-password"
+                        type="password"
+                        name="password"
+                        required
+                    />
+                    <span className="form__error"></span>
+                </div>
                 <button className="form__button">Войти</button>
             </form>
             <p className="login__subtitle">Ещё не зарегистрированы?
-                <Link className="login__link" to={"/signup"}> Регистрация</Link> 
+                <Link className="login__link" to={"/signup"}>Регистрация</Link> 
             </p>
         </section>
     );

@@ -17,7 +17,8 @@
 }
 
 .form-info {
-    margin: 0 auto 220px;
+    margin: 0 auto;
+    padding: 0 0 220px;
     display: flex;
     flex-direction: column;
     width: 410px;
@@ -65,6 +66,11 @@
     margin: 14px 0 0;
 }
 
+.profile__buttons {
+    display: flex;
+    flex-direction: column;
+}
+
 .profile__change-button {
     max-width: 130px;
     align-self: center;
@@ -79,7 +85,7 @@
     color: #FFFFFF;
 }
 
-.profile__exsit-button {
+.profile__exit-button {
     align-self: center;
     max-width: 230px;
     background-color: transparent;
@@ -95,4 +101,29 @@
 .button:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+    .profile {
+      justify-content: space-between;  
+    }
+
+    .profile__title {
+        margin: 70px 0 80px;
+    }
+
+    .form-info {
+        width: 260px;
+        padding: 0 0 379px;
+    }
+
+    .profile__change-button {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .profile__exit-button {
+        font-size: 12px;
+        line-height: 15px;
+    }
 }
