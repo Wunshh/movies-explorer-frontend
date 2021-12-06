@@ -3,7 +3,10 @@
 .profile {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    background-color: #202020;
+    height: 100%;
 }
 
 .profile__title {
@@ -16,9 +19,16 @@
     color: #FFFFFF;
 }
 
+.profile__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 385px;
+}
+
 .form-info {
     margin: 0 auto;
-    padding: 0 0 220px;
     display: flex;
     flex-direction: column;
     width: 410px;
@@ -69,6 +79,7 @@
 .profile__buttons {
     display: flex;
     flex-direction: column;
+    padding: 0 0 70px;
 }
 
 .profile__change-button {
@@ -105,16 +116,23 @@
 
 @media screen and (max-width: 767px) {
     .profile {
-      justify-content: space-between;  
+        height: 100%;
+    }
+
+    .profile__buttons {
+      padding: 0 0 40px; 
     }
 
     .profile__title {
         margin: 70px 0 80px;
     }
 
+    .profile__form {
+        height: 526px;
+    }
+
     .form-info {
         width: 260px;
-        padding: 0 0 379px;
     }
 
     .profile__change-button {

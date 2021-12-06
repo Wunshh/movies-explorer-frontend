@@ -6,6 +6,7 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Header from '../Header/Header'
 import Footer from '../Footer/Footer';
+import Portfolio from '../Portfolio/Portfolio';
 
 function Main({ loggedIn }) {
     return (
@@ -16,6 +17,7 @@ function Main({ loggedIn }) {
             <AboutProject />
             <Techs />
             <AboutMe />
+            <Portfolio />
             <Footer />
         </div>
     )
