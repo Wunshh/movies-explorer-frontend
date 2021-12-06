@@ -13,7 +13,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 function App() {
   // при добавлении функциональности добавить setLoggedIn
   // для изменения header заменить false на true
-  const [loggedIn] = useState(true);
+  const [loggedIn] = useState(false);
 
 
   return (
