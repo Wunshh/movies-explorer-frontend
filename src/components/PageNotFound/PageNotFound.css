@@ -38,3 +38,20 @@
 .not-found__button:hover {
     opacity: 0.6;
 }
+
+@media screen and (max-width: 767px) {
+    .not-found__title {
+        font-size: 80px;
+        line-height: 97px;
+    }
+
+    .not-found__subtitle {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .not-found__button {
+        font-size: 12px;
+        line-height: 15px;
+    }
+} 

@@ -2,13 +2,13 @@
 
 .register {
     width: 100vw;
-    background-color: #000000;
+    background-color: #202020;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
     margin: 0 auto;
     align-items: center;
-    padding: 70px 0 0;
+    padding: 70px 0;
 }
 
 .register__header {
@@ -135,7 +135,7 @@
 
 @media screen and (max-width: 767px) {
     .register {
-        padding: 0;
+        padding: 0 0 40px;
         box-sizing: content-box;
     }
 

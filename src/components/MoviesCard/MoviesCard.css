@@ -70,6 +70,23 @@
     opacity: 0.8;
 }
 
+.card__delete-button {
+    background-color: #313131;
+    background-image: url('../../images/delete-button.svg');
+    cursor: pointer;
+    width: 100px;
+    height: 29px;
+    align-self: center;
+    border-radius: 30px;
+    border: none;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.card__delete-button:hover {
+    opacity: 0.8;
+}
+
 .card__like-button_active {
     background-color: #EE3465;
     background-image: url('../../images/saveCard.svg');
