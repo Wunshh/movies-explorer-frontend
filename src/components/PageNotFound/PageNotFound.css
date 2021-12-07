@@ -1,0 +1,57 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.not-found {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.not-found__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 140px;
+    line-height: 169px;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.not-found__subtitle {
+    margin: 5px 0 184px;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+}
+
+.not-found__button {
+    text-decoration: none;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    color: #4285F4;
+}
+
+.not-found__button:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 767px) {
+    .not-found__title {
+        font-size: 80px;
+        line-height: 97px;
+    }
+
+    .not-found__subtitle {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .not-found__button {
+        font-size: 12px;
+        line-height: 15px;
+    }
+} 

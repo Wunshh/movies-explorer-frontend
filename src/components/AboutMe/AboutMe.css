@@ -1,0 +1,158 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.about-me {
+    width: 100%;
+    background-color: #202020;
+    box-sizing: border-box;
+    padding: 110px 70px 0;
+}
+
+.about-me__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 27px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0;
+    padding: 0 0 23px;
+    border-bottom: 1px solid #DADADA;
+}
+
+.about-me__flex {
+    padding: 66px 0 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.about-me__info {
+    max-width: 600px;
+}
+
+.about-me__name {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0 0 18px;
+}
+
+.about-me__work {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    margin: 0 0 26px;
+}
+
+.about-me__biography {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+    margin: 0 0 99px;
+}
+
+.about-me__photo {
+    width: 270px;
+    height: 327px;
+    border-radius: 10px;
+}
+
+.about-me__contact {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    margin: 0;
+    margin-right: 20px;
+    text-decoration: none;
+}
+
+.about-me__contact:last-of-type {
+    margin: 0;
+}
+
+.about-me__contact:hover {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 1279px) {
+    .about-me {
+        padding: 90px 50px;
+    }
+
+    .about-me__flex {
+        padding: 66px 0 90px;
+    }
+
+    .about-me__name {
+        font-size: 40px;
+        line-height: 40px;
+        margin: 0 0 16px;
+    }
+
+    .about-me__work {
+        margin: 0 0 20px;  
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .about-me__biography {
+        margin: 0 0 87px;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .about-me__photo {
+        width: 255px;
+        height: 307px;
+    }
+}
+
+
+@media screen and (max-width: 767px) {
+    .about-me {
+        padding: 70px 14px;
+    }
+
+    .about-me__title {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .about-me__flex {
+        flex-direction: column-reverse;
+        align-items: center;
+        padding: 60px 0 70px;
+    }
+
+    .about-me__photo {
+        width: 292px;
+        height: 352px;
+        margin-bottom: 40px;
+    }
+
+    .about-me__name {
+        font-size: 30px;
+        line-height: 36px;
+        margin: 0 0 20px;
+    }
+
+    .about-me__work {
+        font-size: 11px;
+        line-height: 16px;
+        margin: 0 0 20px;
+    }
+
+    .about-me__biography {
+        font-size: 11px;
+        line-height: 16px;
+        margin: 0 0 40px;
+    }
+}

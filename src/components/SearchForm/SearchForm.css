@@ -1,0 +1,120 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.search-form {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 70px;
+    background-color: #222222;
+    border-radius: 9px;
+    padding: 19px 29px;
+}
+
+.form__movie {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #505050;
+    justify-content: space-between;
+}
+
+.form__input_type_saerch {
+    margin: 0;
+    background-color: #222222;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFFFFF;
+    width: 82%;
+    padding: 5px;
+    border: none;
+    border-radius: 8px;
+}
+
+.form__input_type_saerch:focus {
+    outline-color: #EE3465;
+}
+
+.form__button_type_search {
+    width: 80px;
+    height: 34px;
+    background: #4285F4;
+    border-radius: 48px;
+    margin: 0 19px;
+    padding: 0;
+    background-image: url('../../images/searchButton.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.form__button_type_search:hover {
+    opacity: 0.8;
+}
+
+.form__shortfilm {
+    width: 20%;
+    margin-left: 19px;
+    display: flex;
+    align-items: center;
+}
+
+.form__subtitle {
+    margin: 0;
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
+
+@media screen and (max-width: 1279px) {
+    .search-form {
+        margin: 80px auto 109px;
+        max-width: 708px;
+        width: 100%;
+        align-self: center;
+    }
+    .form__movie {
+        max-width: 462px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .search-form {
+        flex-direction: column;
+        align-items: center;
+        margin: 80px 0 45px;
+        background-color: #202020;
+        box-sizing: border-box;
+        padding: 0 10px;
+    }
+
+    .form__movie {
+        /* width: 300px; */
+        width: 100%;
+        border: none;
+        box-sizing: border-box;
+        background-color: #222222;
+        border-radius: 8px;
+        padding: 19px 0 19px 14px;
+    }
+
+    .form__input_type_saerch {
+        width: 65%;
+        font-size: 14px;
+    }
+    
+    .form__image {
+        display: none;
+    }
+
+    .form__shortfilm {
+        width: 100%;
+        padding: 46px 0 0;
+        margin: 0;
+        justify-content: center;
+    }
+}

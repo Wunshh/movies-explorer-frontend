@@ -1,0 +1,12 @@
+@import url(../../vendor/normalize.css);
+
+.page {
+  position: relative;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  background-color: #000000;
+}

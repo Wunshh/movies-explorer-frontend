@@ -1,0 +1,38 @@
+@import url(../../vendor/Fonts/fonts.css);
+
+.promo {
+    width: 100%;
+    min-height: 524px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.promo__background-image {
+    position: absolute;
+}
+
+.promo__title {
+    font-family: 'Inter', 'Arial', sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    margin: 0 auto;
+    max-width: 730px;
+}
+
+@media screen and (max-width: 767px) {
+    .promo__title {
+        font-size: 31px;
+        line-height: 39px;
+    }
+
+    .promo__background-image {
+        width: 248px;
+    }
+}
