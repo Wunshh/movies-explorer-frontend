@@ -18,7 +18,6 @@ function Header({ loggedIn }) {
     }
 
     return (
-        //для смены header в App.js заменить на const [loggedIn] = useState(false);
         <header className='header'>
             {loggedIn ? 
                 <div className="header__main header__main_page_movies">
@@ -27,15 +26,18 @@ function Header({ loggedIn }) {
                     </div>
                     <div className="header__nav">
                         <NavLink 
-                            className={({ isActive }) => (isActive ? "header__link_active header__link_type_movies" : "header__link header__link_type_movies" )}
+                            activeClassName="header__link_active"
+                            className="header__link header__link_type_movies"
                             to="/movies"
                         >Фильмы</NavLink>
                         <NavLink
-                            className={({ isActive }) => (isActive ? "header__link_active header__link_type_saved" : "header__link header__link_type_saved" )}
+                            activeClassName="header__link_active"
+                            className="header__link header__link_type_saved"
                             to="/saved-movies"
                         >Сохранённые фильмы</NavLink>
                         <NavLink 
-                            className={({ isActive }) => (isActive ? "header__link_active header__link_type_profile" : "header__link header__link_type_profile" )}
+                            activeClassName="header__link_active"
+                            className="header__link header__link_type_profile"
                             to="/profile"
                         >
                             <img className="header__link-icon" src={profileIcon} alt="иконка профиля"/>

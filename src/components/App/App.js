@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Routes , Route } from 'react-router-dom';
+import {useState, useEffect} from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
@@ -8,43 +8,106 @@ import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import * as authUser from '../../utils/MainApi';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
 function App() {
-  // при добавлении функциональности добавить setLoggedIn
-  // для изменения header заменить false на true
-  const [loggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const history = useHistory();
+
+  useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      authUser.getContent(jwt)
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          history.push('/');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
+  }, [history]);
+
+  const onRegister = ({ password, email, name }) => {
+    return authUser.register( password, email, name )
+    .then((res) => {
+      if(res) {
+        return res;
+      } 
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    // .finally(() => {
+        
+    // });
+  }
+
+  const onLogin = ({ password, email }) => { 
+    return authUser.authorize( password, email ) 
+    .then((data) => { 
+      if (data.token){ 
+          setLoggedIn(true); 
+          localStorage.setItem('jwt', data.token); 
+          history.push('/'); 
+      }  
+    }) 
+    .catch((err) => { 
+      console.log(err) 
+    }) 
+  }
+
+  const onSignOut = () => {
+      localStorage.removeItem('jwt');
+      setLoggedIn(false);
+  }
 
 
   return (
     <div className="App page">
-      <Routes>
 
-        <Route path="/" element={ 
+      <Switch>
+        <Route exact path="/">
           <Main loggedIn={loggedIn} /> 
-        }/>
+        </Route>
 
-        <Route path="/signup" element={ <Register />} />
+        <Route exact path="/signup"> 
+          <Register onRegister={onRegister} />
+        </Route>
 
-        <Route path="/signin" element={ <Login /> } />
+        <Route exact path="/signin">
+          <Login onLogin={onLogin} />
+        </Route> 
 
-        <Route path="/movies" element={ 
-          <Movies loggedIn={loggedIn}/> 
-        }/>
+        <ProtectedRoute 
+          path="/movies" 
+          component={Movies}
+          loggedIn={loggedIn} 
+        />
 
-        <Route path="saved-movies" element={
-          <SavedMovies loggedIn={loggedIn} />
-        }/>
+        <ProtectedRoute 
+          path="/saved-movies" 
+          component={SavedMovies}
+          loggedIn={loggedIn} 
+        />
 
-        <Route path="/profile" element={
-          <Profile loggedIn={loggedIn}/>
-        }/>
+        <ProtectedRoute 
+          path="/profile" 
+          component={Profile} 
+          loggedIn={loggedIn} 
+          onSignOut={onSignOut}
+        />
 
-        <Route path="*" element={
+        <Route path="*">
           <PageNotFound />
-        }/>
-        
-      </Routes>
+        </Route>
+
+      </Switch>
+
     </div>
   );
 }

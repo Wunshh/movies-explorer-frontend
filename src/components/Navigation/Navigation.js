@@ -16,16 +16,19 @@ function Navigation({ isOpen, onClose, onMenuClick }) {
             />
             <nav className={`burger-menu ${isOpen ? "burger-menu_open" : ""}`}>
                 <div className="burger-menu__container">
-                    <NavLink  
-                        className={({ isActive }) => (isActive ? "burger-menu__link burger-menu__link_active" : "burger-menu__link" )}
-                        to="/"
+                    <NavLink 
+                        activeClassName="burger-menu__link_active"
+                        className="burger-menu__link"
+                        exact to="/"
                     >Главная</NavLink>
                     <NavLink 
-                        className={({ isActive }) => (isActive ? "burger-menu__link burger-menu__link_active" : "burger-menu__link" )} 
+                        activeClassName="burger-menu__link_active"
+                        className="burger-menu__link"
                         to="/movies"
                     >Фильмы</NavLink>
                     <NavLink 
-                        className={({ isActive }) => (isActive ? "burger-menu__link burger-menu__link_active" : "burger-menu__link" )} 
+                        activeClassName="burger-menu__link_active"
+                        className="burger-menu__link"
                         to="/saved-movies"
                     >Сохранённые фильмы</NavLink>
                 </div>
