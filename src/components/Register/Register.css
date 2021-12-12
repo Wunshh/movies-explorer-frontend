@@ -37,7 +37,7 @@
     height: 497px;
 }
 
-.form {
+.form__user {
     display: flex;
     flex-direction: column;
     width: 396px;
@@ -82,6 +82,7 @@
 }
 
 .form__error_visible {
+    display: block;
     margin: -10px 0 10px;
     color: #EE3465;
     font-family: "Inter", "Arial", sans-serif;
@@ -104,6 +105,10 @@
     line-height: 17px;
     color: #FFFFFF;
     cursor: pointer;
+}
+
+.form__button_disabled {
+    background-color: gray;
 }
 
 .form__button:hover {
@@ -154,7 +159,7 @@
         text-align: center;
     }
 
-    .form {
+    .form__user {
         width: 260px;
         justify-content: space-between;
         height: 100%;

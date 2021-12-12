@@ -1,5 +1,12 @@
-// export const BASE_URL = "https://api.last.nomoredomains.work";
+// const BASE_URL = "https://api.last.nomoredomains.work";
 const BASE_URL = "http://localhost:3000";
+
+function checkResponse(res) {
+  if (res.ok) {
+      return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
 
 export const register = (password, email, name) => { 
   return fetch(`${BASE_URL}/signup`, { 
@@ -10,12 +17,7 @@ export const register = (password, email, name) => {
     }, 
     body: JSON.stringify({password, email, name}) 
   }) 
-  .then((res) => { 
-    if (res.ok) { 
-      return res.json(); 
-    } 
-    return Promise.reject(`Ошибка: ${res.status}`); 
-  }) 
+  .then(checkResponse)
   .then((res) => { 
     return res; 
   }); 
@@ -32,13 +34,7 @@ export const authorize = (password, email) => {
     body: JSON.stringify({password, email}) 
   }) 
 
-  .then((res) => { 
-    if (res.ok) { 
-      return res.json(); 
-    } 
-    return Promise.reject(`Ошибка: ${res.status}`); 
-  }); 
-
+  .then(checkResponse)
 } 
 
 export const getContent = (token) => { 
@@ -50,11 +46,32 @@ export const getContent = (token) => {
       'Authorization': `Bearer ${token}`, 
     },
   }) 
-  .then((res) => { 
-    if (res.ok) { 
-      return res.json(); 
-    } 
-    return Promise.reject(`Ошибка: ${res.status}`); 
-  }) 
+  .then(checkResponse)
   .then(data => data); 
 } 
+
+export const getUserInfoFromServer = () => {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET', 
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+  },
+  })
+  .then(checkResponse)
+} 
+
+export const updateUserData = (item) => {
+  return fetch(`${BASE_URL}/users/me`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+      },
+      body: JSON.stringify({
+          name: item.name,
+          email: item.email
+      })
+  })
+  .then(checkResponse);
+}

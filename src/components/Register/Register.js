@@ -1,25 +1,26 @@
-import React, { useState, useEffect  } from "react";
+import { useEffect } from 'react';
+import useFormValidation from '../../utils/hooks/useFormValidation';
 import { Link, useHistory } from "react-router-dom";
 import './Register.css';
 import headerLogo from '../../images/logo.svg';
 
 function Register({ onRegister }) {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+    const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
     const history = useHistory();
- 
-    const resetForm = () => {
-        setEmail("");
-        setPassword("");
-        setName("")
-    }
+
+    useEffect(() => {
+        resetForm();
+    }, [resetForm]);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
     
-        onRegister({ password, email, name })
+        onRegister({ 
+            password: values.password, 
+            email: values.email, 
+            name: values.name 
+        })
           .then(resetForm)
           .catch((err) => {
               console.log(err)
@@ -32,18 +33,6 @@ function Register({ onRegister }) {
         }
     }, [history]);
 
-    function handlePasswordAdd(evt) {
-        setPassword(evt.target.value);
-    }
-
-    function handleEmailAdd(evt) {
-        setEmail(evt.target.value);
-    }
-
-    function handleNameAdd(evt) {
-        setName(evt.target.value);
-    }
-
     return (
         <section className="register">
             <div className="register__header">
@@ -51,43 +40,49 @@ function Register({ onRegister }) {
                 <h1 className="register__title">Добро пожаловать!</h1>
             </div>
             <div className="register__form">
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form form__user" onSubmit={handleSubmit}>
                     <div className="form__inputs">
-                        <label className="form__label" for="name">Имя</label>
+                        <label className="form__label" htmlFor="name">Имя</label>
                         <input 
                             id="name"
                             className="form__input form__input-name"
                             type="text"
                             name="name"
                             required
-                            value={name}
-                            onChange={handleNameAdd}
+                            value={values.name || ''}
+                            onChange={handleChange}
                         />
-                        <span className="form__error"> sdgsdg</span>
-                        <label className="form__label" for="email">E-mail</label>
+                        <span className={`form__error ${errors.name && "form__error_visible"}`}>
+                            {errors.name || ''}
+                        </span>
+                        <label className="form__label" htmlFor="email">E-mail</label>
                         <input 
                             id="email"
                             className="form__input form__input-email" 
                             type="email" 
                             name="email"    
                             required
-                            value={email}
-                            onChange={handleEmailAdd}
+                            value={values.email || ''}
+                            onChange={handleChange}
                         />
-                        <span className="form__error"></span>
-                        <label className="form__label" for="password">Пароль</label>
+                        <span className={`form__error ${errors.email && "form__error_visible"}`}>
+                            {errors.email || ''}
+                        </span>
+                        <label className="form__label" htmlFor="password">Пароль</label>
                         <input 
                             id="password"
                             className="form__input form__input-password"
                             type="password"
                             name="password"
                             required
-                            value={password}
-                            onChange={handlePasswordAdd}
+                            value={values.password || ''}
+                            onChange={handleChange}
                         />
-                        <span className="form__error"></span>
+                        <span className={`form__error ${errors.password && "form__error_visible"}`}>
+                            {errors.password || ''}
+                        </span>
                     </div>
-                    <button className="form__button">Зарегистрироваться</button>
+                    <button type="submit" className={`form__button ${!isValid && "form__button_disabled"}`}>Зарегистрироваться</button>
                 </form>
                 <p className="register__subtitle">Уже зарегистрированы? 
                     <Link className="register__link" to={"/signin"}> Войти</Link> 

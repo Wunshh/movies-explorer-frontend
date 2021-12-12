@@ -30,14 +30,20 @@
 .form-info {
     margin: 0 auto;
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     width: 410px;
 }
 
 .form__user {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
+}
+
+.form__user_container {
+    flex-direction: row;
 }
 
 .form__title {
@@ -96,6 +102,10 @@
     color: #FFFFFF;
 }
 
+.profile__change-button_disabled {
+    color: gray;
+}
+
 .profile__exit-button {
     align-self: center;
     max-width: 230px;
@@ -114,6 +124,25 @@
     cursor: pointer;
 }
 
+.form-user_error {
+    display: none;
+}
+
+.form-user_error_visible {
+    display: block;
+    margin: 0 0 -12px;
+    color: #EE3465;
+    font-family: "Inter", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+    text-align: center;
+}
+
+.form-user__info {
+    height: 100%;
+}
+ 
 @media screen and (max-width: 767px) {
     .profile {
         height: 100%;

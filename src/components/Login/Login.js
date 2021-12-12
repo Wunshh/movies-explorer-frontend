@@ -1,22 +1,24 @@
-import {useState, useEffect} from 'react';
+import { useEffect } from 'react';
+import useFormValidation from '../../utils/hooks/useFormValidation';
 import { useHistory, Link } from 'react-router-dom';
 import './Login.css';
 import headerLogo from '../../images/logo.svg';
 
 function Login({ onLogin }) {
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    
+    const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
     const history = useHistory();
 
-    const resetForm = () => {
-        setEmail("");
-        setPassword("");
-    }
+    useEffect(() => {
+        resetForm();
+    }, [resetForm]);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        onLogin({ password, email })
+        onLogin({ 
+            password: values.password, 
+            email: values.email
+        })
           .then(resetForm)
           .catch((err) => {
               console.log(err);
@@ -29,14 +31,6 @@ function Login({ onLogin }) {
         }
     }, [history]);
 
-    function handlePasswordAdd(evt) {
-        setPassword(evt.target.value);
-    }
-
-    function handleEmailAdd(evt) {
-        setEmail(evt.target.value);
-    }
-
     return (
         <section className="login">
             <div className="login__header">
@@ -44,32 +38,36 @@ function Login({ onLogin }) {
                 <h1 className="login__title">Рады видеть!</h1>
             </div>
             <div className="login__form">
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form form__user" onSubmit={handleSubmit}>
                     <div className="form__inputs">
-                        <label className="form__label" for="email">E-mail</label>
+                        <label className="form__label" htmlFor="email">E-mail</label>
                         <input 
                             id="email"
                             className="form__input form__input-email" 
                             type="email" 
                             name="email" 
-                            value={email} 
-                            onChange={handleEmailAdd}  
+                            value={values.email || ''} 
+                            onChange={handleChange}  
                             required
                         />
-                        <span className="form__error"></span>
-                        <label className="form__label" for="password">Пароль</label>
+                        <span className={`form__error ${errors.email && "form__error_visible"}`}>
+                            {errors.email || ''}
+                        </span>
+                        <label className="form__label" htmlFor="password">Пароль</label>
                         <input 
                             id="password"
                             className="form__input form__input-password"
                             type="password"
                             name="password"
-                            value={password} 
-                            onChange={handlePasswordAdd} 
+                            value={values.password || ''} 
+                            onChange={handleChange} 
                             required
                         />
-                        <span className="form__error"></span>
+                        <span className={`form__error ${errors.password && "form__error_visible"}`}>
+                            {errors.password || ''}
+                        </span>
                     </div>
-                    <button className="form__button">Войти</button>
+                    <button type="submit" className={`form__button ${!isValid && "form__button_disabled"}`}>Войти</button>
                 </form>
                 <p className="login__subtitle">Ещё не зарегистрированы?
                     <Link className="login__link" to={"/signup"}> Регистрация</Link> 

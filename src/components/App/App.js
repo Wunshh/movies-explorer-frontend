@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, useHistory, Switch } from 'react-router-dom';
 import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
@@ -9,12 +9,42 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import * as authUser from '../../utils/MainApi';
+// import moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"; 
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  // const [films, setFilms] = useState([]);
   const history = useHistory();
+  const [isPreloader, setPreloader] = useState(false);
+
+  useEffect(() => {
+    if (loggedIn) {
+    authUser.getUserInfoFromServer()
+    .then((dataUser) => {
+      setCurrentUser(dataUser);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    // .finally(() => {
+
+    // });
+    }
+}, [loggedIn]);
+
+  function handleUpdateUser(item) {
+    authUser.updateUserData(item)
+    .then(res => {
+        setCurrentUser(res);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+  }
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -42,9 +72,9 @@ function App() {
     .catch((err) => {
       console.log(err);
     })
-    // .finally(() => {
-        
-    // });
+    .finally(() => {
+      setPreloader(true)
+    });
   }
 
   const onLogin = ({ password, email }) => { 
@@ -68,47 +98,54 @@ function App() {
 
 
   return (
-    <div className="App page">
+    <CurrentUserContext.Provider value = {currentUser}>
+      <div className="App page">
 
-      <Switch>
-        <Route exact path="/">
-          <Main loggedIn={loggedIn} /> 
-        </Route>
+        <Switch>
+          <Route exact path="/">
+            <Main 
+              loggedIn={loggedIn} 
+            /> 
+          </Route>
 
-        <Route exact path="/signup"> 
-          <Register onRegister={onRegister} />
-        </Route>
+          <Route exact path="/signup"> 
+            <Register onRegister={onRegister} />
+          </Route>
 
-        <Route exact path="/signin">
-          <Login onLogin={onLogin} />
-        </Route> 
+          <Route exact path="/signin">
+            <Login onLogin={onLogin} />
+          </Route> 
 
-        <ProtectedRoute 
-          path="/movies" 
-          component={Movies}
-          loggedIn={loggedIn} 
-        />
+          <ProtectedRoute 
+            path="/movies" 
+            component={Movies}
+            loggedIn={loggedIn} 
+            isOpen={isPreloader}
+            // onFilms={films}
+          />
 
-        <ProtectedRoute 
-          path="/saved-movies" 
-          component={SavedMovies}
-          loggedIn={loggedIn} 
-        />
+          <ProtectedRoute 
+            path="/saved-movies" 
+            component={SavedMovies}
+            loggedIn={loggedIn} 
+          />
 
-        <ProtectedRoute 
-          path="/profile" 
-          component={Profile} 
-          loggedIn={loggedIn} 
-          onSignOut={onSignOut}
-        />
+          <ProtectedRoute 
+            path="/profile" 
+            component={Profile} 
+            loggedIn={loggedIn} 
+            onSignOut={onSignOut}
+            onUpdateUser={handleUpdateUser}
+          />
 
-        <Route path="*">
-          <PageNotFound />
-        </Route>
+          <Route path="*">
+            <PageNotFound />
+          </Route>
 
-      </Switch>
+        </Switch>
 
-    </div>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 
