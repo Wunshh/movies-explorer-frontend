@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import './Register.css';
 import headerLogo from '../../images/logo.svg';
 
-function Register({ onRegister }) {
+function Register({ onRegister, message }) {
 
     const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
     const history = useHistory();
@@ -29,7 +29,7 @@ function Register({ onRegister }) {
 
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
-          history.push('/');
+          history.push('/movies');
         }
     }, [history]);
 
@@ -44,6 +44,8 @@ function Register({ onRegister }) {
                     <div className="form__inputs">
                         <label className="form__label" htmlFor="name">Имя</label>
                         <input 
+                            minLength="2"
+                            maxLength="30"
                             id="name"
                             className="form__input form__input-name"
                             type="text"
@@ -82,6 +84,7 @@ function Register({ onRegister }) {
                             {errors.password || ''}
                         </span>
                     </div>
+                    <span className={`form__server-error ${message && "form__server-error_visible"}`}>{message}</span>
                     <button type="submit" className={`form__button ${!isValid && "form__button_disabled"}`}>Зарегистрироваться</button>
                 </form>
                 <p className="register__subtitle">Уже зарегистрированы? 

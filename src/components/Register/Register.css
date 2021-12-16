@@ -91,6 +91,20 @@
     line-height: 12px;
 }
 
+.form__server-error {
+    display: none;
+}
+
+.form__server-error_visible {
+    display: block;
+    margin: 59px 0 -50px;
+    color: #EE3465;
+    font-family: "Inter", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
 .form__button {
     margin: 59px 0 16px;
     width: 100%;

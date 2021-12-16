@@ -9,42 +9,40 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import * as authUser from '../../utils/MainApi';
-// import moviesApi from '../../utils/MoviesApi';
+import * as moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"; 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  // const [films, setFilms] = useState([]);
+  const [movies, setMovies] = useState([]);
   const history = useHistory();
-  const [isPreloader, setPreloader] = useState(false);
+  const [moviesError, setMoviesError] = useState("");
+  const [changeProfileError, setchangeProfileError] = useState(false);
+  const [changeProfileSuccess, setChangeProfileSuccess] = useState(false);
+  // const [isPreloader, setPreloader] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     if (loggedIn) {
-    authUser.getUserInfoFromServer()
-    .then((dataUser) => {
-      setCurrentUser(dataUser);
-    })
-    .catch((err) => {
+      Promise.all([authUser.getUserInfoFromServer(), moviesApi.getInitialMovies()])
+      .then(([dataUser, dataMovies]) => {
+        setCurrentUser(dataUser);
+        setMovies(dataMovies);
+        localStorage.setItem('movies', JSON.stringify(dataMovies));
+      })
+      .catch((err) => {
+        localStorage.removeItem('movies');
+        setMoviesError('Во время запроса произошла ошибка. ' 
+        + 'Возможно, проблема с соединением или сервер недоступен. ' 
+        + 'Подождите немного и попробуйте ещё раз');
         console.log(err);
-    })
-    // .finally(() => {
-
-    // });
+      });
     }
-}, [loggedIn]);
-
-  function handleUpdateUser(item) {
-    authUser.updateUserData(item)
-    .then(res => {
-        setCurrentUser(res);
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-  }
+  }, [loggedIn]);
 
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -53,11 +51,13 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
-          history.push('/');
+          history.push('/movies');
         }
       })
       .catch((err) => {
         console.log(err);
+        localStorage.removeItem('jwt');
+        history.push('/');
       });
     }
   }, [history]);
@@ -66,36 +66,53 @@ function App() {
     return authUser.register( password, email, name )
     .then((res) => {
       if(res) {
-        return res;
+        setMessage("");
+        onLogin({password, email});
       } 
     })
     .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setPreloader(true)
+      setMessage(err.message);
     });
   }
 
-  const onLogin = ({ password, email }) => { 
+    const onLogin = ({ password, email }) => { 
     return authUser.authorize( password, email ) 
-    .then((data) => { 
+    .then((data) => {  
       if (data.token){ 
-          setLoggedIn(true); 
-          localStorage.setItem('jwt', data.token); 
-          history.push('/'); 
+        setMessage("");
+        setLoggedIn(true); 
+        localStorage.setItem('jwt', data.token); 
+        history.push('/movies'); 
       }  
     }) 
     .catch((err) => { 
-      console.log(err) 
+      setMessage(err.message);
     }) 
   }
 
   const onSignOut = () => {
-      localStorage.removeItem('jwt');
-      setLoggedIn(false);
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    localStorage.removeItem('movies');
   }
 
+  function handleUpdateUser(item) {
+    authUser.updateUserData(item)
+    .then(res => {
+      setCurrentUser(res);
+      setChangeProfileSuccess(true);
+      setTimeout(() => {
+        setChangeProfileSuccess(false)
+      }, 3000);
+    })
+    .catch((err) => {
+      console.log(err);
+      setchangeProfileError(true);
+      setTimeout(() => {
+        setchangeProfileError(false)
+      }, 3000);
+    });
+  }
 
   return (
     <CurrentUserContext.Provider value = {currentUser}>
@@ -109,19 +126,26 @@ function App() {
           </Route>
 
           <Route exact path="/signup"> 
-            <Register onRegister={onRegister} />
+            <Register 
+              onRegister={onRegister} 
+              message={message}
+            />
           </Route>
 
           <Route exact path="/signin">
-            <Login onLogin={onLogin} />
+            <Login 
+              onLogin={onLogin}
+              message={message}
+            />
           </Route> 
 
           <ProtectedRoute 
             path="/movies" 
             component={Movies}
-            loggedIn={loggedIn} 
-            isOpen={isPreloader}
-            // onFilms={films}
+            loggedIn={loggedIn}
+            moviesError={moviesError} 
+            // isOpen={isPreloader}
+            onMovies={movies}
           />
 
           <ProtectedRoute 
@@ -136,6 +160,8 @@ function App() {
             loggedIn={loggedIn} 
             onSignOut={onSignOut}
             onUpdateUser={handleUpdateUser}
+            changeProfileError={changeProfileError}
+            changeProfileSuccess={changeProfileSuccess}
           />
 
           <Route path="*">

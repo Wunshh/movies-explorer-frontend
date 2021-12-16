@@ -4,7 +4,7 @@ import { useHistory, Link } from 'react-router-dom';
 import './Login.css';
 import headerLogo from '../../images/logo.svg';
 
-function Login({ onLogin }) {
+function Login({ onLogin, message }) {
     
     const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
     const history = useHistory();
@@ -19,15 +19,15 @@ function Login({ onLogin }) {
             password: values.password, 
             email: values.email
         })
-          .then(resetForm)
-          .catch((err) => {
-              console.log(err);
-          });
+        .then(resetForm)
+        .catch((err) => {
+            console.log(err);
+        });
     }
 
     useEffect(() => {
         if (localStorage.getItem('jwt')) {
-          history.push('/');
+          history.push('/movies');
         }
     }, [history]);
 
@@ -67,6 +67,7 @@ function Login({ onLogin }) {
                             {errors.password || ''}
                         </span>
                     </div>
+                    <span className={`form__server-error ${message && "form__server-error_visible"}`}>{message}</span>
                     <button type="submit" className={`form__button ${!isValid && "form__button_disabled"}`}>Войти</button>
                 </form>
                 <p className="login__subtitle">Ещё не зарегистрированы?

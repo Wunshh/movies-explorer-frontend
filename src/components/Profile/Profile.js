@@ -4,25 +4,24 @@ import Header from '../Header/Header';
 import useFormValidation from '../../utils/hooks/useFormValidation';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Profile({ loggedIn, onSignOut, onUpdateUser }) {
+function Profile({ loggedIn, onSignOut, onUpdateUser, changeProfileError, changeProfileSuccess }) {
 
     const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
 
     const currentUser = useContext(CurrentUserContext);
 
     useEffect(() => {
-        resetForm({ email: currentUser.email, name: currentUser.name }, {}, true);
+        resetForm({ email: currentUser.email, name: currentUser.name }, {}, false);
     }, [currentUser, resetForm]);
 
     function handleSubmit(evt) {
-        debugger
         evt.preventDefault();
         
         onUpdateUser({
           name: values.name,
           email: values.email,
         });
-      }
+    }
 
     return (
         <section className="profile">
@@ -65,6 +64,8 @@ function Profile({ loggedIn, onSignOut, onUpdateUser }) {
                         </div>
                     </div>
                     <div className="profile__buttons">
+                        {changeProfileSuccess && <span className="profile__form-error">Данные успешно изменены!</span>}
+                        {changeProfileError && <span className="profile__form-error">Что-то пошло не так! Попробуйте ещё раз.</span>}
                         <button type="submit" className={`profile__change-button button ${!isValid && "profile__change-button_disabled"}`} >Редактировать</button>
                         <button className="profile__exit-button button" onClick={onSignOut}>Выйти из аккаунта</button>
                     </div>
