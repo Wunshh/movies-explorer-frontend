@@ -13,18 +13,18 @@ import * as moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-
-
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
-  const history = useHistory();
   const [moviesError, setMoviesError] = useState("");
+  const [foundMovies, setFoundMovies] = useState([]);
   const [changeProfileError, setchangeProfileError] = useState(false);
   const [changeProfileSuccess, setChangeProfileSuccess] = useState(false);
+  const [shortMovies, setShortMovies] = useState(false);
   // const [isPreloader, setPreloader] = useState(false);
   const [message, setMessage] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
     if (loggedIn) {
@@ -32,10 +32,10 @@ function App() {
       .then(([dataUser, dataMovies]) => {
         setCurrentUser(dataUser);
         setMovies(dataMovies);
-        localStorage.setItem('movies', JSON.stringify(dataMovies));
+        localStorage.setItem('allMovies', JSON.stringify(dataMovies));
       })
       .catch((err) => {
-        localStorage.removeItem('movies');
+        localStorage.removeItem('allMovies');
         setMoviesError('Во время запроса произошла ошибка. ' 
         + 'Возможно, проблема с соединением или сервер недоступен. ' 
         + 'Подождите немного и попробуйте ещё раз');
@@ -44,6 +44,7 @@ function App() {
     }
   }, [loggedIn]);
 
+
   useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
@@ -51,6 +52,10 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
+          if (localStorage.getItem('foundMovies')) {
+            const foundMovies = localStorage.getItem('foundMovies');
+            setFoundMovies(JSON.parse(foundMovies));
+          }
           history.push('/movies');
         }
       })
@@ -62,6 +67,29 @@ function App() {
     }
   }, [history]);
 
+  function handleSwitchCheckbox() {
+    setShortMovies(true);
+    if (shortMovies) {
+      setShortMovies(false);
+    }
+  }
+
+  function filterForMovies(keyword) {
+    if (shortMovies) {
+      const foundShortMovies = movies.filter((movie) => {
+        return movie.duration <= 40 && movie.nameRU.toLowerCase().includes(keyword.toLowerCase());
+      });
+      localStorage.setItem('foundMovies', JSON.stringify(foundShortMovies));
+      setFoundMovies(foundShortMovies);
+    } else {
+      const foundMovies = movies.filter((movie) => {
+        return movie.nameRU.toLowerCase().includes(keyword.toLowerCase());
+      });
+      localStorage.setItem('foundMovies', JSON.stringify(foundMovies));
+      setFoundMovies(foundMovies);
+    }
+  }
+  
   const onRegister = ({ password, email, name }) => {
     return authUser.register( password, email, name )
     .then((res) => {
@@ -73,28 +101,30 @@ function App() {
     .catch((err) => {
       setMessage(err.message);
     });
-  }
+  };
 
-    const onLogin = ({ password, email }) => { 
-    return authUser.authorize( password, email ) 
-    .then((data) => {  
-      if (data.token){ 
-        setMessage("");
-        setLoggedIn(true); 
-        localStorage.setItem('jwt', data.token); 
-        history.push('/movies'); 
-      }  
-    }) 
-    .catch((err) => { 
-      setMessage(err.message);
-    }) 
-  }
+  const onLogin = ({ password, email }) => { 
+  return authUser.authorize( password, email ) 
+  .then((data) => {  
+    if (data.token){ 
+      setMessage("");
+      setLoggedIn(true); 
+      localStorage.setItem('jwt', data.token); 
+      history.push('/movies'); 
+    }  
+  }) 
+  .catch((err) => { 
+    setMessage(err.message);
+  });
+  };
 
   const onSignOut = () => {
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    localStorage.removeItem('movies');
-  }
+    localStorage.removeItem('allMovies');
+    localStorage.removeItem('foundMovies');
+    setFoundMovies([]);
+  };
 
   function handleUpdateUser(item) {
     authUser.updateUserData(item)
@@ -146,12 +176,19 @@ function App() {
             moviesError={moviesError} 
             // isOpen={isPreloader}
             onMovies={movies}
+            onFilter={filterForMovies}
+            onShortMovies={shortMovies}
+            onHandleSwitchCheckbox={handleSwitchCheckbox}
+            moviesCards={foundMovies}
           />
 
           <ProtectedRoute 
             path="/saved-movies" 
             component={SavedMovies}
             loggedIn={loggedIn} 
+            onFilter={filterForMovies}
+            onShortMovies={shortMovies}
+            onHandleSwitchCheckbox={handleSwitchCheckbox}
           />
 
           <ProtectedRoute 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Header.css';
 import headerLogo from '../../images/logo.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import profileIcon from '../../images/profile.svg';
 import Navigation from '../Navigation/Navigation';
 
@@ -22,7 +22,9 @@ function Header({ loggedIn }) {
             {loggedIn ? 
                 <div className="header__main header__main_page_movies">
                     <div className='header__logo-container'>
-                        <img className="header__logo" src={headerLogo} alt='Логотип' />
+                        <Link to="/" className="register__header-link"> 
+                            <img className="header__logo" src={headerLogo} alt='Логотип' />
+                        </Link>
                     </div>
                     <div className="header__nav">
                         <NavLink 
@@ -53,7 +55,9 @@ function Header({ loggedIn }) {
                 :
                 <div className="header__main">
                     <div className='header__logo-container'>
-                        <img className="header__logo" src={headerLogo} alt='Логотип' />
+                        <Link to="/" className="register__header-link"> 
+                            <img className="header__logo" src={headerLogo} alt='Логотип' />
+                        </Link>
                     </div>
                     <div className='header__container'>
                         <NavLink to="/signup" className="header__link header__link_type_signup">Регистрация</NavLink>

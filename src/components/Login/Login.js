@@ -34,7 +34,9 @@ function Login({ onLogin, message }) {
     return (
         <section className="login">
             <div className="login__header">
-                <img className="login__logo" alt="логотип" src={headerLogo}/>
+                <Link to="/" className="login__header-link">
+                    <img className="login__logo" alt="логотип" src={headerLogo}/>
+                </Link>
                 <h1 className="login__title">Рады видеть!</h1>
             </div>
             <div className="login__form">

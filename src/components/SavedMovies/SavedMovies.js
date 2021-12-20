@@ -4,11 +4,15 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-function SavedMovies({ loggedIn }) {
+function SavedMovies({ loggedIn, onFilter, onShortMovies, onHandleSwitchCheckbox }) {
     return (
         <section className="saved-movies">
             <Header loggedIn={loggedIn} />
-                <SearchForm />
+                <SearchForm 
+                    onFilter={onFilter} 
+                    onHandleSwitchCheckbox={onHandleSwitchCheckbox}
+                    onShortMovies={onShortMovies}
+                />
             <div className="saved-movies__cards">
                 <MoviesCard />
             </div>

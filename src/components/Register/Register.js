@@ -36,7 +36,9 @@ function Register({ onRegister, message }) {
     return (
         <section className="register">
             <div className="register__header">
-                <img className="register__logo" alt="логотип" src={headerLogo}/>
+                <Link to="/" className="register__header-link">
+                    <img className="register__logo" alt="логотип" src={headerLogo}/>
+                </Link>
                 <h1 className="register__title">Добро пожаловать!</h1>
             </div>
             <div className="register__form">
