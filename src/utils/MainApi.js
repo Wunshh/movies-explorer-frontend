@@ -1,5 +1,4 @@
-// const BASE_URL = "https://api.last.nomoredomains.work";
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://api.last.nomoredomains.work";
 const MOVIES_URL = "https://api.nomoreparties.co";
 
 const checkResponse = async(res) => {
