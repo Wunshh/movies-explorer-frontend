@@ -4,7 +4,12 @@ import Header from '../Header/Header';
 import useFormValidation from '../../utils/hooks/useFormValidation';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function Profile({ loggedIn, onSignOut, onUpdateUser, changeProfileError, changeProfileSuccess }) {
+function Profile({ 
+    loggedIn, 
+    onSignOut, 
+    onUpdateUser, 
+    changeProfileError, 
+    changeProfileSuccess }) {
 
     const {values, handleChange, resetForm, errors, isValid} = useFormValidation();
 

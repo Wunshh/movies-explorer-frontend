@@ -15,11 +15,8 @@ function Movies({
     onSaveMovie, 
     onMovieDelite,
     onSavedMoviesUpdate,
-    moviesError
-}) {
+    moviesError }) {
 
-    console.log(isSerch);
-    
     return (
         <section className="movies">
             <Header loggedIn={loggedIn}/>

@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import './MoviesCard.css';
-const MOVIES_URL = "https://api.nomoreparties.co";
+import { MOVIES_URL } from '../../utils/utils';
 
 
 function MoviesCard({ movieCard, onSaveMovie, onMovieDelite, onSavedMoviesUpdate }) {
