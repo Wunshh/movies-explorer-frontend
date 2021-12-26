@@ -9,6 +9,7 @@
     margin: 0 auto;
     align-items: center;
     padding: 70px 0;
+    height: 100vh;
 }
 
 .login__header {

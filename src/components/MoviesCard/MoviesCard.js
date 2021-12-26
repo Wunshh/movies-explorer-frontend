@@ -1,52 +1,60 @@
-import { 
-    useState, 
-    // useContext 
-} from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import './MoviesCard.css';
-// import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-const BASE_URL = "https://api.nomoreparties.co";
+const MOVIES_URL = "https://api.nomoreparties.co";
 
-function MoviesCard({movieCard}) {
 
-    // const currentUser = useContext(CurrentUserContext);
+function MoviesCard({ movieCard, onSaveMovie, onMovieDelite, onSavedMoviesUpdate }) {
 
-    const [isLike] = useState(false);
-    // const [isSaved] = useState(false);
+    const [isLike, setIsLike ] = useState(false);
 
-    // function handleAddLike() {
-    //     setLike(true);
-    // }
+    const addLike = useCallback(() => {
+        if (onSavedMoviesUpdate) {
+            if (onSavedMoviesUpdate.find((item) => item.movieId === movieCard.id)) {
+                setIsLike(true);
+            } else {
+                setIsLike(false);
+            }
+        }
+    }, [movieCard.id, onSavedMoviesUpdate]);
+    
+    useEffect(() => {
+        addLike();
+    }, [addLike]);
 
-    // const isLiked = movieCard.likes.some((item) => {
-    //     return item === currentUser._id
-    // });
 
-    // const cardLikeButtonClassName = (
-    //     isLiked ? setLike(true) : setLike(false)
-    // );
+    function handelSave(evt) {
+        evt.preventDefault();
+        onSaveMovie(movieCard);
+    }
+
+    function handleDelete() {
+        onMovieDelite(movieCard);
+    }
+
+    const movieCardImage = (movieCard.image.url ? `${MOVIES_URL}${movieCard.image.url}` : movieCard.image);
 
     return (
-            <div className="card">
-                <div className="card__info">
-                    <h3 className="card__name">{movieCard.nameRU}</h3>
-                    <p className="card__duration">{movieCard.duration} минут</p>
-                </div>
-                <a className="card__link" href={movieCard.trailerLink} target="_blank" rel="noreferrer">
-                    <img className="card__image" alt={movieCard.nameRU} src={`${BASE_URL}${movieCard.image.url}`}/>
-                </a>
-                <Route exact path="/movies">
-                    {isLike ? 
-                        <button className="card__like-button_active" />
-                        : 
-                        <button className="card__like-button">Cохранить</button>
-                    }
-                </Route>
-
-                <Route exact path="/saved-movies">
-                    <button className="card__delete-button" />
-                </Route>
+        <div className="card">
+            <div className="card__info">
+                <h3 className="card__name">{movieCard.nameRU}</h3>
+                <p className="card__duration">{movieCard.duration} минут</p>
             </div>
+            <a className="card__link" href={movieCard.trailerLink || movieCard.trailer} target="_blank" rel="noreferrer">
+                <img className="card__image" alt={movieCard.nameRU} src={movieCardImage}/>
+            </a>
+            <Route exact path="/movies">
+                {isLike ? 
+                    <button type="submit" className="card__like-button_active" onClick={handleDelete}/>
+                    : 
+                    <button type="submit" className="card__like-button" onClick={handelSave}>Cохранить</button>
+                }
+            </Route>
+
+            <Route exact path="/saved-movies">
+                <button type="submit" className="card__delete-button" onClick={handleDelete}/>
+            </Route>
+        </div>
     );
 }
 

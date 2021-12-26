@@ -5,20 +5,42 @@ import Preloader from '../Preloader/Preloader';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 
-function Movies({ loggedIn, isOpen, onFilter, onShortMovies, onHandleSwitchCheckbox, moviesCards }) {
+function Movies({ 
+    loggedIn, 
+    isSerch, 
+    onFilter, 
+    onShortMovies, 
+    onHandleSwitchCheckbox, 
+    moviesCards, 
+    onSaveMovie, 
+    onMovieDelite,
+    onSavedMoviesUpdate,
+    moviesError
+}) {
 
+    console.log(isSerch);
+    
     return (
-        <div className="movies">
+        <section className="movies">
             <Header loggedIn={loggedIn}/>
             <SearchForm 
                 onFilter={onFilter} 
                 onShortMovies={onShortMovies}
                 onHandleSwitchCheckbox={onHandleSwitchCheckbox}
             />
-            <Preloader isOpen={isOpen} />
-            <MoviesCardList moviesCards={moviesCards}/>
+            {isSerch ? 
+                <Preloader isSerch={isSerch} />
+                :
+                <MoviesCardList 
+                    moviesCards={moviesCards} 
+                    onSaveMovie={onSaveMovie}
+                    onMovieDelite={onMovieDelite}
+                    onSavedMoviesUpdate={onSavedMoviesUpdate}
+                    moviesError={moviesError}
+                />
+            }
             <Footer />
-        </div>
+        </section>
     );
 }
 

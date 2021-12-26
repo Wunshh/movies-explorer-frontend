@@ -24,7 +24,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    max-width: 250px;
+    max-width: 235px;
 }
 
 .card__duration {

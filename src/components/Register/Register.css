@@ -9,6 +9,7 @@
     margin: 0 auto;
     align-items: center;
     padding: 70px 0;
+    height: 100vh;
 }
 
 .register__header {
@@ -70,7 +71,6 @@
     border-radius: 8px;
     box-sizing: border-box;
     padding: 15px;
-
 }
 
 .form__input_error {

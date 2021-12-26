@@ -1,5 +1,6 @@
 // const BASE_URL = "https://api.last.nomoredomains.work";
 const BASE_URL = "http://localhost:3000";
+const MOVIES_URL = "https://api.nomoreparties.co";
 
 const checkResponse = async(res) => {
   if (res.ok) {
@@ -72,4 +73,50 @@ export const updateUserData = (item) => {
     })
   })
   .then(checkResponse);
+}
+
+export const postMovies = (item) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+    },
+    body: JSON.stringify({
+      country: item.country || ' ',
+      director: item.director || ' ',
+      duration: item.duration || ' ',
+      year: item.year || ' ',
+      description: item.description || ' ',
+      image: MOVIES_URL + item.image.url || ' ',
+      trailer: item.trailerLink || ' ',
+      thumbnail: MOVIES_URL + item.image.formats.thumbnail.url || ' ',
+      movieId: item.id || ' ',
+      nameRU: item.nameRU || ' ',
+      nameEN: item.nameEN || ' '
+    })
+  })
+  .then(checkResponse);
+}
+
+export const getInitialMovies = () => {
+  return fetch(`${BASE_URL}/movies`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+      },
+  })
+  .then(checkResponse);
+}
+
+export const handleDeleteMovie = (item) => {
+  return fetch(`${BASE_URL}/movies/${item}`, {
+    method: "DELETE",
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('jwt')}`,
+    },
+})
+.then(checkResponse);
 }

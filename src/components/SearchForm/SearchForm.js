@@ -1,41 +1,47 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './SearchForm.css';
+import useFormValidation from '../../utils/hooks/useFormValidation';
 import searchInput from '../../images/searchInput.svg';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
 function SearchForm({ onFilter, onShortMovies, onHandleSwitchCheckbox }) {
 
-    const [movieName, setMovieName] = useState('');
+    const {values, handleChange, resetForm, isValid} = useFormValidation();
+    const [error, setError] = useState('');
 
-    const resetForm = () => {
-        setMovieName('')
-    }
-
-    function handleNameChange(evt) {
-        setMovieName(evt.target.value);
-    }
+    useEffect(() => {
+        resetForm();
+    }, [resetForm]);
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        onFilter(movieName);
-        resetForm();
+        if (!values.movieName) {
+            setError('Введите ключевое слово');
+            setTimeout(() => {
+                setError('');
+            }, 2000);
+        } else {
+            onFilter({ movieName: values.movieName });
+            resetForm();
+        }
     }
     return (
         <section className="search-form">
 
-            <form className="form__movie">
+            <form className="form__movie" onSubmit={handleSubmit}>
                 <img className="form__image" alt="иконка поиска" src={searchInput}/>
                 <input 
                     className="form__input_type_saerch" 
                     type="text"
                     name="movieName"
-                    value={movieName || ''}
+                    value={values.movieName || ''}
                     placeholder="Фильм"
-                    onChange={handleNameChange} 
-                    required
+                    onChange={handleChange}
+                    
                 />
-                <button type="submit" className="form__button_type_search" onClick={handleSubmit}/>
+                {error && <span className="form__search-error_visible">{error}</span>}
+                <button type="submit" className={`form__button_type_search ${!isValid && "form__button_type_search_disabled"}`}/>
             </form>
 
             <div className="form__shortfilm">
