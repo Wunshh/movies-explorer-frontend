@@ -165,7 +165,6 @@ function App() {
 
   //фильтр по всем фильмам
   function filterForMovies({movieName}) {
-    debugger;
     handleOnPreloader();
     if (!isPreloader) {
       if (shortMovies) {
