@@ -22,7 +22,6 @@ function MoviesCardList({
     moviesError }) {
 
     const windowWidth = useWindowWidth();
-
     const [initialMoviesCards, setInitialMoviesCards] = useState(0);
     const [addMoviesCards, setAddMoviesCards] = useState(0);
 
@@ -49,37 +48,44 @@ function MoviesCardList({
     return (
         <section className="movies__cards">
             <Route exact path="/movies">
-                <div className="movie__card">
-                {moviesError.text && <p className={`movie__card-not-found ${moviesError && "movie__card-not-found_active"}`}>{moviesError.text}</p>}
-                    {moviesCards.slice(0, initialMoviesCards).map((movieCard) => {
-                        return (
-                            <MoviesCard 
-                                movieCard={movieCard}
-                                key={movieCard.id || movieCard._id}
-                                onSaveMovie={onSaveMovie}
-                                onMovieDelite={onMovieDelite}
-                                onSavedMoviesUpdate={onSavedMoviesUpdate}
-                            /> 
-                        );
-                    })}
-                </div>
-                {moviesCards.length > 0 && <button type="button" className="movies__add-botton" onClick={handleAddMoviesCards}>Ещё</button>}
+                {moviesCards === null ||  moviesCards === undefined ? 
+                    <div className="movie__card"/> 
+                    :
+                    <div className="movie__card">
+                    {moviesError.text && <p className={`movie__card-not-found ${moviesError && "movie__card-not-found_active"}`}>{moviesError.text}</p>}
+                        {moviesCards.slice(0, initialMoviesCards).map((movieCard) => {
+                            return (
+                                <MoviesCard 
+                                    movieCard={movieCard}
+                                    key={movieCard.id || movieCard._id}
+                                    onSaveMovie={onSaveMovie}
+                                    onMovieDelite={onMovieDelite}
+                                    onSavedMoviesUpdate={onSavedMoviesUpdate}
+                                /> 
+                            );
+                        })}
+                    </div>
+                }
+                {moviesCards !== null && moviesCards.length > initialMoviesCards  && <button type="button" className="movies__add-botton" onClick={handleAddMoviesCards}>Ещё</button>}
             </Route>
             <Route exact path="/saved-movies">
-                <div className="movie__card">
-                {moviesError.text && <p className={`movie__card-not-found ${moviesError && "movie__card-not-found_active"}`}>{moviesError.text}</p>}
-                    {moviesCards.map((movieCard) => {
-                        return (
-                            <MoviesCard 
-                                movieCard={movieCard}
-                                key={movieCard.id || movieCard._id}
-                                onSaveMovie={onSaveMovie}
-                                onMovieDelite={onMovieDelite}
-                                onSavedMoviesUpdate={onSavedMoviesUpdate}
-                            /> 
-                        );
-                    })}
-                </div>
+                {moviesCards === null ||  moviesCards === undefined ? 
+                    <div className="movie__card"/> 
+                :
+                    <div className="movie__card">
+                    {moviesError.text && <p className={`movie__card-not-found ${moviesError && "movie__card-not-found_active"}`}>{moviesError.text}</p>}
+                        {moviesCards.map((movieCard) => {
+                            return (
+                                <MoviesCard 
+                                    movieCard={movieCard}
+                                    key={movieCard.id || movieCard._id}
+                                    onSaveMovie={onSaveMovie}
+                                    onMovieDelite={onMovieDelite}
+                                /> 
+                            );
+                        })}
+                    </div>
+                }
             </Route>
         </section>
     );

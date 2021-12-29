@@ -7,12 +7,8 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({ onFilter, onShortMovies, onHandleSwitchCheckbox }) {
 
-    const {values, handleChange, resetForm, isValid} = useFormValidation();
+    const {values, handleChange, isValid} = useFormValidation();
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        resetForm();
-    }, [resetForm]);
 
     function handleSubmit(evt) {
         evt.preventDefault();
@@ -23,7 +19,6 @@ function SearchForm({ onFilter, onShortMovies, onHandleSwitchCheckbox }) {
             }, 2000);
         } else {
             onFilter({ movieName: values.movieName });
-            resetForm();
         }
     }
     return (

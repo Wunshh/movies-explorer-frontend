@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import { Route, useHistory, Switch } from 'react-router-dom';
+import { Route, useHistory, Switch, useLocation } from 'react-router-dom';
 import './App.css';
 import Main from '../Main/Main';
 import Register from '../Register/Register';
@@ -24,10 +24,10 @@ function App() {
   const [changeProfileSuccess, setChangeProfileSuccess] = useState(false);
   const [shortMovies, setShortMovies] = useState(false);
   const [isMovieSaved, setIsMovieSaved]= useState([]);
-  const [savedMoviesUpdate, setSavedMoviesUpdate] = useState([]);
   const [isPreloader, setPreloader] = useState(false);
   const [message, setMessage] = useState("");
   const history = useHistory();
+  const location = useLocation();
 
   //получение данных пользователя и всех фильмов
   useEffect(() => {
@@ -35,15 +35,18 @@ function App() {
       Promise.all([
         authUser.getUserInfoFromServer(), 
         moviesApi.getInitialMovies(), 
+        authUser.getInitialMovies()
       ])
-      .then(([dataUser, dataMovies]) => {
+      .then(([dataUser, dataMovies, dataSavedMovies]) => {
         setCurrentUser(dataUser);
         setMovies(dataMovies);
+        setIsMovieSaved(dataSavedMovies);
         localStorage.setItem('allMovies', JSON.stringify(dataMovies));
-        getSavedMovies();
+        localStorage.setItem('savedMovies', JSON.stringify(dataSavedMovies));
       })
       .catch((err) => {
         localStorage.removeItem('allMovies');
+        localStorage.removeItem('savedMovies');
         setMoviesError({text: 'Во время запроса произошла ошибка. ' 
         + 'Возможно, проблема с соединением или сервер недоступен. ' 
         + 'Подождите немного и попробуйте ещё раз'});
@@ -51,9 +54,10 @@ function App() {
       });
     }
   }, [loggedIn]);
-
+  
  //проверка токена
   useEffect(() => {
+    const path = location.pathname;
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
       authUser.getContent(jwt)
@@ -66,17 +70,15 @@ function App() {
             const savedMovies = localStorage.getItem('savedMovies');
             setIsMovieSaved(JSON.parse(savedMovies));
           }
-          history.push('/movies');
+          history.push(path);
         }
       })
       .catch((err) => {
         console.log(err);
         localStorage.removeItem('jwt');
-        history.push('/');
       });
     }
-  }, [history]);
-
+  }, []);
 
   //регитсрация
   const onRegister = ({ password, email, name }) => {
@@ -100,7 +102,7 @@ function App() {
       setMessage("");
       setLoggedIn(true); 
       localStorage.setItem('jwt', data.token); 
-      history.push('/movies'); 
+      history.push('/movies');
     }  
   }) 
   .catch((err) => { 
@@ -137,22 +139,6 @@ function App() {
         setchangeProfileError(false)
       }, 3000);
     });
-  }
-
-  //получение сохраненных фильмов 
-  function getSavedMovies() {
-    authUser.getInitialMovies()
-    .then((res) => {
-      setIsMovieSaved(res);
-      localStorage.setItem('savedMovies', JSON.stringify(res));
-      setSavedMoviesUpdate(res);
-    })
-    .catch((err) => {
-      localStorage.removeItem('savedMovies');
-      setSavedMoviesError({text: 'Во время запроса произошла ошибка. ' 
-      + 'Возможно, проблема с соединением или сервер недоступен. ' 
-      + 'Подождите немного и попробуйте ещё раз'});
-    })
   }
 
   //фильтр для короткометражек 
@@ -237,8 +223,6 @@ function App() {
       authUser.postMovies(item)
       .then((newMovie) => {
         setIsMovieSaved([newMovie, ...isMovieSaved]);
-        getSavedMovies();
-        setSavedMoviesUpdate(isMovieSaved);
       })
       .catch((err) => {
         console.log(err);
@@ -254,9 +238,8 @@ function App() {
     const selectedMovieDelete = isMovieSaved.find((movie) => movie.movieId === item.id);
     authUser.handleDeleteMovie(selectedMovieDelete._id) 
     .then(() => {
-      setIsMovieSaved(isMovieSaved.filter((item) => item.id !== selectedMovieDelete._id));
-      getSavedMovies();
-      setSavedMoviesUpdate(isMovieSaved);
+      const isMovie = isMovieSaved.filter((m) => m.movieId !== item.id);
+      setIsMovieSaved(isMovie);
     })
     .catch((err) => {
       console.log(err);
@@ -267,9 +250,8 @@ function App() {
   function handleDeleteSavedMovie(item) {
     authUser.handleDeleteMovie(item._id) 
     .then(() => {
-      setIsMovieSaved(isMovieSaved.filter((m) => m._id !== item._id));
-      getSavedMovies();
-      setSavedMoviesUpdate(isMovieSaved);
+      const isMovie = isMovieSaved.filter((m) => m._id !== item._id);
+      setIsMovieSaved(isMovie);
     })
     .catch((err) => {
       console.log(err);
@@ -321,7 +303,7 @@ function App() {
             onShortMovies={shortMovies}
             onHandleSwitchCheckbox={handleSwitchCheckbox}
             moviesCards={foundMovies}
-            onSavedMoviesUpdate={savedMoviesUpdate}
+            onSavedMoviesUpdate={isMovieSaved}
           />
 
           <ProtectedRoute 
