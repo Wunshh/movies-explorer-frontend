@@ -29,7 +29,7 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
-  //получение данных пользователя и всех фильмов
+  //получение данных пользователя и фильмов
   useEffect(() => {
     if (loggedIn) {
       Promise.all([
@@ -223,6 +223,7 @@ function App() {
       authUser.postMovies(item)
       .then((newMovie) => {
         setIsMovieSaved([newMovie, ...isMovieSaved]);
+        localStorage.setItem('savedMovies', JSON.stringify([newMovie, ...isMovieSaved]));
       })
       .catch((err) => {
         console.log(err);
@@ -240,6 +241,7 @@ function App() {
     .then(() => {
       const isMovie = isMovieSaved.filter((m) => m.movieId !== item.id);
       setIsMovieSaved(isMovie);
+      localStorage.setItem('savedMovies', JSON.stringify(isMovie));
     })
     .catch((err) => {
       console.log(err);
@@ -252,6 +254,7 @@ function App() {
     .then(() => {
       const isMovie = isMovieSaved.filter((m) => m._id !== item._id);
       setIsMovieSaved(isMovie);
+      localStorage.setItem('savedMovies', JSON.stringify(isMovie));
     })
     .catch((err) => {
       console.log(err);

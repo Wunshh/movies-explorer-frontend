@@ -1,5 +1,5 @@
-const BASE_URL = "https://api.last.nomoredomains.work";
-const MOVIES_URL = "https://api.nomoreparties.co";
+
+import { BASE_URL, MOVIES_URL } from './utils';
 
 const checkResponse = async(res) => {
   if (res.ok) {

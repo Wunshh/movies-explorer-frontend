@@ -10,6 +10,7 @@ const moreCardsForMobaileAndTabletWidth = 2;
 const moreCardsForDesctopWidth = 3;
 
 const MOVIES_URL = "https://api.nomoreparties.co";
+const BASE_URL = "https://api.last.nomoredomains.work";
 
 export {
     mobaileWidth,
@@ -20,5 +21,6 @@ export {
     cardsForDesctopWidth,
     moreCardsForMobaileAndTabletWidth,
     moreCardsForDesctopWidth,
-    MOVIES_URL
 }
+
+export { MOVIES_URL, BASE_URL }
