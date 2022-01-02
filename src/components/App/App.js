@@ -139,6 +139,7 @@ function App() {
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('foundSavedMovies');
     localStorage.removeItem('keyWord');
+    localStorage.removeItem('checkbox');
     setFoundMovies([]);
     setIsMovieSaved([]);
     setIsSerch("");
