@@ -15,7 +15,8 @@ function Movies({
     onSaveMovie, 
     onMovieDelite,
     onSavedMoviesUpdate,
-    moviesError }) {
+    moviesError,
+    onKeyWord }) {
 
     return (
         <section className="movies">
@@ -24,6 +25,7 @@ function Movies({
                 onFilter={onFilter} 
                 onShortMovies={onShortMovies}
                 onHandleSwitchCheckbox={onHandleSwitchCheckbox}
+                onKeyWord={onKeyWord}
             />
             {isSerch ? 
                 <Preloader isSerch={isSerch} />

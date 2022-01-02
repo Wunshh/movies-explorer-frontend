@@ -17,7 +17,7 @@ import {
 function MoviesCardList({ 
     moviesCards, 
     onSaveMovie, 
-    onMovieDelite, 
+    onMovieDelite,
     onSavedMoviesUpdate, 
     moviesError }) {
 

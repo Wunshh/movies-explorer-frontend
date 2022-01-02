@@ -13,6 +13,7 @@ import * as moviesApi from '../../utils/MoviesApi';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -26,6 +27,8 @@ function App() {
   const [isMovieSaved, setIsMovieSaved]= useState([]);
   const [isPreloader, setPreloader] = useState(false);
   const [message, setMessage] = useState("");
+  const [isSerch, setIsSerch] = useState("");
+  const [isSerchSavedMovies, setIsSerchSavedMovies] = useState("");
   const history = useHistory();
   const location = useLocation();
 
@@ -64,11 +67,11 @@ function App() {
       .then((res) => {
         if (res) {
           setLoggedIn(true);
-          if (localStorage.getItem('foundMovies') || localStorage.getItem('savedMovies')) {
+          if (localStorage.getItem('foundMovies') || localStorage.getItem('savedMovies') || localStorage.getItem('keyWord') ) {
             const foundMovies = localStorage.getItem('foundMovies');
             setFoundMovies(JSON.parse(foundMovies));
-            const savedMovies = localStorage.getItem('savedMovies');
-            setIsMovieSaved(JSON.parse(savedMovies));
+            const keyWord = localStorage.getItem('keyWord');
+            setIsSerch(JSON.parse(keyWord));
           }
           history.push(path);
         }
@@ -79,6 +82,17 @@ function App() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    const path = location.pathname;
+    localStorage.removeItem('foundSavedMovies');
+    setIsMovieSaved(JSON.parse(localStorage.getItem('savedMovies')));
+    setShortMovies(JSON.parse(localStorage.getItem('checkbox')));
+    if (path === '/saved-movies') {
+      setShortMovies(false);
+    }
+    history.push(path);
+  }, [history, location.pathname]);
 
   //регитсрация
   const onRegister = ({ password, email, name }) => {
@@ -91,6 +105,9 @@ function App() {
     })
     .catch((err) => {
       setMessage(err.message);
+      setTimeout(() => {
+        setMessage("");
+      }, 2000);
     });
   };
 
@@ -107,6 +124,9 @@ function App() {
   }) 
   .catch((err) => { 
     setMessage(err.message);
+    setTimeout(() => {
+      setMessage("");
+    }, 2000);
   });
   };
 
@@ -118,8 +138,12 @@ function App() {
     localStorage.removeItem('foundMovies');
     localStorage.removeItem('savedMovies');
     localStorage.removeItem('foundSavedMovies');
+    localStorage.removeItem('keyWord');
     setFoundMovies([]);
     setIsMovieSaved([]);
+    setIsSerch("");
+    setIsSerch("");
+    setIsSerchSavedMovies("");
   };
 
   //изменение данных пользователя
@@ -143,15 +167,38 @@ function App() {
 
   //фильтр для короткометражек 
   function handleSwitchCheckbox() {
-    setShortMovies(true);
-    if (shortMovies) {
-      setShortMovies(false);
+    const path = location.pathname;
+    if (path === '/movies') {
+      if (isSerch) {    
+        if (shortMovies) { 
+          localStorage.setItem('checkbox', JSON.stringify(false));
+          setShortMovies(false);
+        } else {
+          localStorage.setItem('checkbox', JSON.stringify(true));
+          setShortMovies(true);
+        }
+      } else {
+        localStorage.setItem('checkbox', JSON.stringify(false));
+        setShortMovies(false);
+      }
+    } else {
+      if (isSerchSavedMovies) {
+        if (shortMovies) { 
+          setShortMovies(false);
+        } else {
+          setShortMovies(true);
+        }
+      } else {
+        setShortMovies(false);
+      }
     }
   }
 
   //фильтр по всем фильмам
   function filterForMovies({movieName}) {
     handleOnPreloader();
+    localStorage.setItem('keyWord', JSON.stringify(movieName));
+    setIsSerch(movieName);
     if (!isPreloader) {
       if (shortMovies) {
         const foundShortMovies = movies.filter((movie) => {
@@ -163,7 +210,7 @@ function App() {
           setMoviesError({text: 'Ничего не найдено'});
           setTimeout(() => {
             setMoviesError({ text: ''});
-          }, 3000);
+          }, 1000);
         }
       } else {
         const foundMovies = movies.filter((movie) => {
@@ -177,7 +224,7 @@ function App() {
           setMoviesError({text: 'Ничего не найдено'});
           setTimeout(() => {
             setMoviesError({ text: ''});
-          }, 3000);
+          }, 1000);
         }
       }
     }
@@ -186,6 +233,7 @@ function App() {
   //фильтр по сохраненным фильмам  
   function filterForSavedMovies ({movieName}) {
     const arrayOfSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    setIsSerchSavedMovies(movieName);
     if (shortMovies) {
       const foundShorSavedtMovies = arrayOfSavedMovies.filter((movie) => {
         return movie.duration <= 40 && movie.nameRU.toLowerCase().includes(movieName.toLowerCase());
@@ -198,7 +246,7 @@ function App() {
         setSavedMoviesError({text: 'Ничего не найдено'});
         setTimeout(() => {
           setSavedMoviesError({ text: ''});
-        }, 3000);
+        }, 1000);
       }
     } else {
       const founSavedMovies = arrayOfSavedMovies.filter((movie) => {
@@ -211,7 +259,7 @@ function App() {
         setSavedMoviesError({text: 'Ничего не найдено'});
         setTimeout(() => {
           setSavedMoviesError({ text: ''});
-        }, 3000);
+        }, 1000);
       }
     }
   }
@@ -307,6 +355,7 @@ function App() {
             onHandleSwitchCheckbox={handleSwitchCheckbox}
             moviesCards={foundMovies}
             onSavedMoviesUpdate={isMovieSaved}
+            onKeyWord={isSerch}
           />
 
           <ProtectedRoute 
@@ -318,7 +367,8 @@ function App() {
             onShortMovies={shortMovies}
             onHandleSwitchCheckbox={handleSwitchCheckbox}
             onMovieDelite={handleDeleteSavedMovie}
-            moviesError={savedMoviesError} 
+            moviesError={savedMoviesError}
+            onKeyWord={isSerchSavedMovies} 
           />
 
           <ProtectedRoute 
