@@ -9,6 +9,7 @@
     margin: 0 auto;
     align-items: center;
     padding: 70px 0;
+    height: 100vh;
 }
 
 .register__header {
@@ -37,7 +38,7 @@
     height: 497px;
 }
 
-.form {
+.form__user {
     display: flex;
     flex-direction: column;
     width: 396px;
@@ -70,7 +71,6 @@
     border-radius: 8px;
     box-sizing: border-box;
     padding: 15px;
-
 }
 
 .form__input_error {
@@ -82,7 +82,22 @@
 }
 
 .form__error_visible {
+    display: block;
     margin: -10px 0 10px;
+    color: #EE3465;
+    font-family: "Inter", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12px;
+}
+
+.form__server-error {
+    display: none;
+}
+
+.form__server-error_visible {
+    display: block;
+    margin: 59px 0 -50px;
     color: #EE3465;
     font-family: "Inter", "Arial", sans-serif;
     font-size: 10px;
@@ -104,6 +119,10 @@
     line-height: 17px;
     color: #FFFFFF;
     cursor: pointer;
+}
+
+.form__button_disabled {
+    background-color: gray;
 }
 
 .form__button:hover {
@@ -154,7 +173,7 @@
         text-align: center;
     }
 
-    .form {
+    .form__user {
         width: 260px;
         justify-content: space-between;
         height: 100%;

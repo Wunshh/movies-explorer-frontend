@@ -1,9 +1,15 @@
 import './FilterCheckbox.css'
 
-function  FilterCheckbox() {
+function  FilterCheckbox({ onHandleSwitchCheckbox, onShortMovies, formSubmit }) {
     return (
         <div className="form__checkbox">
-            <input className="form__fake-checkbox" type="checkbox" />
+            <input 
+                checked={onShortMovies}
+                onMouseDown={onHandleSwitchCheckbox}
+                className="form__fake-checkbox" 
+                type="checkbox" 
+                onMouseUp={formSubmit}
+            />
         </div>
     );
 }
